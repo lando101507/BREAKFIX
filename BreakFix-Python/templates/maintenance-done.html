@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Done Assigned | BreakFix</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        /* SIDEBAR - SAME AS DASHBOARD */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 245px;
+            height: 100vh;
+            background: #111827;
+            color: white;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #2563eb;
+            border-radius: 12px;
+            font-size: 23px;
+        }
+
+        .profile {
+            background: #1f2937;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            overflow-wrap: anywhere;
+        }
+
+        .profile small {
+            color: #cbd5e1;
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        .profile strong {
+            font-size: 16px;
+        }
+
+        .menu-label {
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0 10px 12px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 14px;
+            color: #e2e8f0;
+            text-decoration: none;
+            border-radius: 9px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .nav-link i,
+        .logout i {
+            font-size: 18px;
+        }
+
+        .nav-link.active,
+        .nav-link:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .logout {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fca5a5;
+            text-decoration: none;
+            padding: 12px;
+            font-weight: bold;
+        }
+
+        .logout:hover {
+            color: #fecaca;
+        }
+
+        /* MAIN CONTENT - SAME AS DASHBOARD */
+        .main {
+            margin-left: 245px;
+            padding: 35px;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+            color: #172554;
+        }
+
+        .page-header p {
+            color: #64748b;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .role-badge {
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* REPORT CARDS */
+        .report {
+            background: white;
+            padding: 22px;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            margin-bottom: 18px;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .report h3 {
+            margin: 0;
+            color: #172554;
+            font-size: 20px;
+            overflow-wrap: anywhere;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 12px;
+            background: #d1fae5;
+            color: #047857;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .details {
+            background: #f8fafc;
+            padding: 14px;
+            border-radius: 9px;
+            margin-top: 12px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+            font-size: 14px;
+        }
+
+        .details strong {
+            color: #172554;
+        }
+
+        /* EMPTY STATE */
+        .empty {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            color: #64748b;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .empty i {
+            font-size: 45px;
+            color: #94a3b8;
+        }
+
+        .empty h3 {
+            color: #172554;
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            padding: 25px 0 5px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 760px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 18px;
+            }
+
+            .brand {
+                margin-bottom: 18px;
+            }
+
+            .profile {
+                margin-bottom: 18px;
+            }
+
+            .sidebar-bottom {
+                margin-top: 12px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="bi bi-tools"></i>
+            </div>
+            <span>BreakFix</span>
+        </div>
+
+        <div class="profile">
+            <small>Logged in as Maintenance</small>
+            <strong>{{ fullname }}</strong>
+        </div>
+
+        <p class="menu-label">WORKSPACE</p>
+
+        <a href="/maintenance-dashboard" class="nav-link">
+            <i class="bi bi-speedometer2"></i>
+            Dashboard
+        </a>
+
+        <a href="/maintenance-assigned" class="nav-link">
+            <i class="bi bi-clipboard-check"></i>
+            My Assigned Reports
+        </a>
+
+        <a href="/maintenance-done" class="nav-link active">
+            <i class="bi bi-check-circle"></i>
+            Done Assigned
+        </a>
+
+        <div class="sidebar-bottom">
+            <a href="/logout" class="logout">
+                <i class="bi bi-box-arrow-left"></i>
+                Logout
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <header class="page-header">
+            <div>
+                <h1>Done Assigned</h1>
+                <p>View the facility reports you have successfully resolved.</p>
+            </div>
+
+            <span class="role-badge">
+                <i class="bi bi-tools"></i>
+                MAINTENANCE PORTAL
+            </span>
+        </header>
+
+        {% if reports %}
+
+            {% for report in reports %}
+
+                <article class="report">
+
+                    <div class="report-header">
+                        <h3>
+                            {{ report.get("report_code") or ("Report #" ~ report.get("id")) }}
+                        </h3>
+
+                        <span class="status">
+                            <i class="bi bi-check-circle"></i>
+                            RESOLVED
+                        </span>
+                    </div>
+
+                    <div class="details">
+                        <strong>Location:</strong>
+                        {{ report.get("location") or "Not provided" }}
+                    </div>
+
+                    <div class="details">
+                        <strong>Priority:</strong>
+                        {{ report.get("priority") or "Normal" }}
+                    </div>
+
+                    <div class="details">
+                        <strong>Description:</strong>
+                        {{ report.get("description") or "No description provided." }}
+                    </div>
+
+                    <div class="details">
+                        <strong>Repair Notes:</strong>
+                        {{ report.get("repair_notes") or "No repair notes provided." }}
+                    </div>
+
+                    <div class="details">
+                        <strong>Date Reported:</strong>
+                        {{ report.get("created_at") or "Not available" }}
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                <i class="bi bi-inbox"></i>
+                <h3>No Completed Reports Yet</h3>
+                <p>
+                    Reports will appear here after their status is changed to Resolved.
+                </p>
+            </div>
+
+        {% endif %}
+
+        <footer class="footer">
+            BreakFix Facility Management System
+        </footer>
+
+    </main>
+
+</body>
+</html>
