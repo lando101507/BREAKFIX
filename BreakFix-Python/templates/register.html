@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - BreakFix</title>
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -26,11 +25,8 @@
             font-family: Arial, Helvetica, sans-serif;
             color: #f8fafc;
             background:
-                radial-gradient(
-                    ellipse at 15% 15%,
-                    rgba(37, 99, 235, 0.20),
-                    transparent 45%
-                ),
+                radial-gradient(ellipse at 15% 15%,
+                    rgba(37, 99, 235, 0.20), transparent 45%),
                 linear-gradient(115deg, #101d38, #0b1427 65%);
         }
 
@@ -41,7 +37,7 @@
 
         .back-home {
             display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             color: #93c5fd;
             text-decoration: none;
             font-size: 13px;
@@ -51,26 +47,8 @@
             color: white;
         }
 
-        .auth-scene {
-            width: 100%;
-            perspective: 1200px;
-        }
-
-        #card {
+        .auth-card {
             position: relative;
-            display: grid;
-            width: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(.2, .7, .2, 1);
-        }
-
-        #card.signup-mode {
-            transform: rotateY(180deg);
-        }
-
-        .auth-face {
-            grid-area: 1 / 1;
-            min-width: 0;
             width: 100%;
             padding: 34px;
             border: 2px solid transparent;
@@ -88,13 +66,7 @@
                     #00f2ff
                 ) border-box;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
             animation: rgb-border 5s linear infinite;
-        }
-
-        .register-face {
-            transform: rotateY(180deg);
         }
 
         @property --rgb-angle {
@@ -149,6 +121,17 @@
             overflow-wrap: anywhere;
         }
 
+        .success-message {
+            margin-bottom: 18px;
+            padding: 12px;
+            border: 1px solid #166534;
+            border-radius: 10px;
+            background: #14532d;
+            color: #bbf7d0;
+            font-size: 13px;
+            overflow-wrap: anywhere;
+        }
+
         .input-group {
             margin-bottom: 19px;
         }
@@ -198,7 +181,6 @@
             pointer-events: none;
         }
 
-        /* Icon-only password button */
         .toggle-password {
             position: absolute;
             top: 50%;
@@ -211,7 +193,6 @@
             height: 28px;
             padding: 0;
             border: none;
-            outline: none;
             background: transparent;
             box-shadow: none;
             color: #94a3b8;
@@ -224,7 +205,6 @@
         }
 
         .toggle-password:focus-visible {
-            color: #60a5fa;
             outline: 2px solid #3b82f6;
             outline-offset: 3px;
             border-radius: 4px;
@@ -247,6 +227,12 @@
         .main-button:hover {
             background: #1d4ed8;
             transform: translateY(-1px);
+        }
+
+        .main-button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .main-button i {
@@ -285,8 +271,13 @@
             font-size: 11px;
         }
 
+        input::-ms-reveal,
+        input::-ms-clear {
+            display: none;
+        }
+
         @media (max-width: 480px) {
-            .auth-face {
+            .auth-card {
                 padding: 28px 22px;
                 border-radius: 20px;
             }
@@ -297,242 +288,145 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            #card,
-            .auth-face {
-                transition: none;
+            .auth-card {
                 animation: none;
             }
         }
-
-        /* Hide browser's built-in password reveal buttons */
-input::-ms-reveal,
-input::-ms-clear {
-    display: none;
-}
-
-input::-webkit-credentials-auto-fill-button {
-    visibility: hidden;
-    display: none !important;
-    pointer-events: none;
-}
-
-/* Keep only our custom Bootstrap eye icon */
-.toggle-password {
-    border: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-}
     </style>
 </head>
 
 <body>
-
 <div class="auth-container">
 
-    <div class="auth-scene">
-        <div id="card" class="signup-mode">
+    <a href="/" class="back-home">
+        <i class="bi bi-arrow-left"></i> Back to Home
+    </a>
 
-            <!-- REGISTER SIDE -->
-            <section class="auth-face register-face">
+    <main class="auth-card">
 
-                <div class="brand-icon">
-                    <i class="bi bi-tools"></i>
-                </div>
-
-                <h1>Create Account</h1>
-
-                <p class="subtitle">
-                    Join your BreakFix workplace workspace
-                </p>
-
-                {% if error %}
-                    <div class="error-message">
-                        <i class="bi bi-exclamation-circle"></i>
-                        {{ error }}
-                    </div>
-                {% endif %}
-
-                <form id="signupForm" action="/register" method="POST">
-
-                    <div class="input-group">
-                        <label for="fullname">Full Name</label>
-                        <div class="input-wrapper">
-                            <i class="bi bi-person input-icon"></i>
-                            <input
-                                type="text"
-                                id="fullname"
-                                name="fullname"
-                                placeholder="Enter your full name"
-                                autocomplete="name"
-                                required
-                            >
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="registerEmail">Work Email</label>
-                        <div class="input-wrapper">
-                            <i class="bi bi-envelope input-icon"></i>
-                            <input
-                                type="email"
-                                id="registerEmail"
-                                name="email"
-                                placeholder="name@company.com"
-                                autocomplete="email"
-                                required
-                            >
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="signupPassword">Password</label>
-                        <div class="input-wrapper">
-                            <i class="bi bi-lock input-icon"></i>
-                            <input
-                                type="password"
-                                id="signupPassword"
-                                name="password"
-                                placeholder="Create a password"
-                                autocomplete="new-password"
-                                minlength="8"
-                                required
-                            >
-                            <button
-                                type="button"
-                                class="toggle-password"
-                                data-toggle="signupPassword"
-                                aria-label="Show password"
-                            >
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="confirmPassword">Confirm Password</label>
-                        <div class="input-wrapper">
-                            <i class="bi bi-shield-lock input-icon"></i>
-                            <input
-                                type="password"
-                                id="confirmPassword"
-                                name="confirm_password"
-                                placeholder="Confirm your password"
-                                autocomplete="new-password"
-                                minlength="8"
-                                required
-                            >
-                            <button
-                                type="button"
-                                class="toggle-password"
-                                data-toggle="confirmPassword"
-                                aria-label="Show confirm password"
-                            >
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="main-button">
-                        <i class="bi bi-person-plus"></i>
-                        Create Account
-                    </button>
-
-                </form>
-
-                <p class="switch-text">
-                    Already have an account?
-                    <button
-                        type="button"
-                        class="switch-button"
-                        id="showLogin"
-                    >Sign In</button>
-                </p>
-
-            </section>
-
-            <!-- LOGIN SIDE -->
-            <section class="auth-face login-face">
-
-                <div class="brand-icon">
-                    <i class="bi bi-tools"></i>
-                </div>
-
-                <h1>Welcome Back</h1>
-
-                <p class="subtitle">
-                    Sign in to access your BreakFix workspace
-                </p>
-
-                <form id="loginForm" action="/login" method="POST">
-
-                    <div class="input-group">
-                        <label for="loginEmail">Work Email</label>
-                        <div class="input-wrapper">
-                            <i class="bi bi-envelope input-icon"></i>
-                            <input
-                                type="email"
-                                id="loginEmail"
-                                name="email"
-                                placeholder="name@company.com"
-                                autocomplete="email"
-                                required
-                            >
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="loginPassword">Password</label>
-                        <div class="input-wrapper">
-                            <i class="bi bi-lock input-icon"></i>
-                            <input
-                                type="password"
-                                id="loginPassword"
-                                name="password"
-                                placeholder="Enter your password"
-                                autocomplete="current-password"
-                                required
-                            >
-                            <button
-                                type="button"
-                                class="toggle-password"
-                                data-toggle="loginPassword"
-                                aria-label="Show password"
-                            >
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div style="text-align: right; margin-bottom: 20px;">
-                        <button
-                            type="button"
-                            id="forgotButton"
-                            class="switch-button"
-                        >
-                            Forgot Password?
-                        </button>
-                    </div>
-
-                    <button type="submit" class="main-button">
-                        <i class="bi bi-box-arrow-in-right"></i>
-                        Sign In
-                    </button>
-
-                </form>
-
-                <p class="switch-text">
-                    Don't have an account?
-                    <button
-                        type="button"
-                        class="switch-button"
-                        id="showSignup"
-                    >Create Account</button>
-                </p>
-
-            </section>
-
+        <div class="brand-icon">
+            <i class="bi bi-tools"></i>
         </div>
-    </div>
+
+        <h1>Create Account</h1>
+
+        <p class="subtitle">
+            Join your BreakFix workplace workspace
+        </p>
+
+        {% if error %}
+            <div class="error-message" role="alert">
+                <i class="bi bi-exclamation-circle"></i>
+                {{ error }}
+            </div>
+        {% endif %}
+
+        {% if success %}
+            <div class="success-message" role="status">
+                <i class="bi bi-check-circle"></i>
+                {{ success }}
+            </div>
+        {% endif %}
+
+        <form id="signupForm" action="/register" method="POST">
+
+            <div class="input-group">
+                <label for="fullname">Full Name</label>
+                <div class="input-wrapper">
+                    <i class="bi bi-person input-icon"></i>
+                    <input
+                        type="text"
+                        id="fullname"
+                        name="fullname"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        maxlength="100"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="registerEmail">Work Email</label>
+                <div class="input-wrapper">
+                    <i class="bi bi-envelope input-icon"></i>
+                    <input
+                        type="email"
+                        id="registerEmail"
+                        name="email"
+                        placeholder="name@company.com"
+                        autocomplete="email"
+                        maxlength="254"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="signupPassword">Password</label>
+                <div class="input-wrapper">
+                    <i class="bi bi-lock input-icon"></i>
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        name="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        data-toggle="signupPassword"
+                        aria-label="Show password"
+                    >
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <div class="input-wrapper">
+                    <i class="bi bi-shield-lock input-icon"></i>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirm_password"
+                        placeholder="Confirm your password"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        data-toggle="confirmPassword"
+                        aria-label="Show confirm password"
+                    >
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="main-button" id="registerButton">
+                <i class="bi bi-person-plus"></i>
+                Create Account
+            </button>
+
+        </form>
+
+        <p class="switch-text">
+            Already have an account?
+            <a href="/login"
+               class="switch-button"
+               style="text-decoration:none;">
+                Sign In
+            </a>
+        </p>
+
+    </main>
 
     <p class="footer">
         © 2026 BreakFix · Workplace Support &amp; Facility System
@@ -543,23 +437,6 @@ input::-webkit-credentials-auto-fill-button {
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    const card = document.getElementById("card");
-    const showSignup = document.getElementById("showSignup");
-    const showLogin = document.getElementById("showLogin");
-
-    // Open the register side first
-    if (showSignup) {
-        showSignup.addEventListener("click", function () {
-            card.classList.add("signup-mode");
-        });
-    }
-
-    if (showLogin) {
-        showLogin.addEventListener("click", function () {
-            card.classList.remove("signup-mode");
-        });
-    }
-
     // Show or hide password
     document.querySelectorAll("[data-toggle]").forEach(function (button) {
         button.addEventListener("click", function () {
@@ -569,7 +446,6 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!input || !icon) return;
 
             const show = input.type === "password";
-
             input.type = show ? "text" : "password";
 
             icon.classList.toggle("bi-eye", !show);
@@ -582,40 +458,45 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Check password confirmation
+    // Validate registration fields
     const signupForm = document.getElementById("signupForm");
 
-    if (signupForm) {
-        signupForm.addEventListener("submit", function (event) {
-            const password = document.getElementById("signupPassword");
-            const confirmPassword = document.getElementById("confirmPassword");
+    signupForm.addEventListener("submit", function (event) {
+        const fullname = document.getElementById("fullname");
+        const email = document.getElementById("registerEmail");
+        const password = document.getElementById("signupPassword");
+        const confirmPassword = document.getElementById("confirmPassword");
 
-            if (password.value !== confirmPassword.value) {
-                event.preventDefault();
-                alert("Passwords do not match!");
-                confirmPassword.focus();
-                return;
-            }
+        if (!fullname.value.trim()) {
+            event.preventDefault();
+            alert("Please enter your full name.");
+            fullname.focus();
+            return;
+        }
 
-            if (password.value.length < 8) {
-                event.preventDefault();
-                alert("Password must be at least 8 characters long.");
-                password.focus();
-            }
-        });
-    }
+        if (password.value.length < 8) {
+            event.preventDefault();
+            alert("Password must be at least 8 characters long.");
+            password.focus();
+            return;
+        }
 
-    // Forgot password
-    const forgotButton = document.getElementById("forgotButton");
+        if (password.value !== confirmPassword.value) {
+            event.preventDefault();
+            alert("Passwords do not match!");
+            confirmPassword.focus();
+            return;
+        }
 
-    if (forgotButton) {
-        forgotButton.addEventListener("click", function () {
-            alert("Please contact support to reset your password.");
-        });
-    }
+        if (!email.validity.valid) {
+            event.preventDefault();
+            alert("Please enter a valid email address.");
+            email.focus();
+        }
+    });
 
 });
 </script>
-
 </body>
 </html>
+        
